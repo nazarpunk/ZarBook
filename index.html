@@ -4,12 +4,13 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>zarbook - Редактор книг-игр</title>
+	<title>zarbook - очередной редактор книг-игр</title>
 	<link href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAg4GAAGxubAB/fXsAg354APn5+QBkXVIAjo6NAGBcVQCVmJoAioqIAF1YUABQSUEAeXd0AOjo6ADZ2dkAjIyLAKempABWXmEAysrKAJmXlQBnamgAeHVyAIqKiQB0cW0AVVBHAIeDfACUkY4AY15ZAKempQCMkpQAgn56AHJvawCAfX0AWFJKAG9rZgCGhIIAgYB9AH18eABhWU8AeHJrAFpUTQCenJkAhIKAAFJMQwBpZV8AioiIAFhSSwBva2cAdnV0AGtnYgBQSkEAa2RaAO3t7QCgoJ8AoqCfAN7e3gCIhoYAz8/PAISCgQBSTEQAgHt0AH16dwBLRDoAZ2BWAE1GPQB7eHUATkY9AGBbVACbmJYAfnt1AIF+fQCcnp4A9vb2AHx3cACLi4oAXVlSAHVvZgCUko8AkY6KAElCOQB3dHEAiYmIAKWjoQCOioUAgYqOAIaFgwB6d3EAZnZ9AFRPRgBiXVgAfX15APLy8gB0cm8Ab32CAOPj4wDU1NQAWlVOAHFuagDFxcUAhoR+AHl4dwBeZGYAcWtiAJ+dmgBpZmAAqaenAKWjogCKhoEAcXJwAGJdWQBsaGMAj4yJAIqIhACioaAAeISIAMHBwQBuZ14AZmJcAJiVkQCfn54AS0U7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASbkQLKSJZLAxBPwAAAABmWFcoTWd1NEAGJ0F5UAAAFV5GSihNZ3U0QAYMdHkAAAJzHz1KKE1ndTRALGNDAABtVWQEPUooTWd1NFkTMwAAMR5xGgQ9SihNZ3UiOjwAAGUJcGwaBD1KKE1nKWAZAABbSE5UbBoEPUooTQsPLwAAIXIUT1RsGgQ9SihEOGEAACtraBtPVGwaBD1KWl9MAABWETd3G09UbBoEPXYOCAAALh1TRXcbT1RsGgQtNRwAAFJqHSpFdxtPVGwaMlx2AAAQF0s7JQM+DVEYYiNJaQAANgcFBQUFBQUFBQUFBW8AAAB4EAo5JAFHJkIWXSAwAMAHAACAAQAAgAEAAIABAACAAQAAgAEAAIABAACAAQAAgAEAAIABAACAAQAAgAEAAIABAACAAQAAgAEAAMABAAA=" rel="icon" type="image/x-icon" />
 	<link href="source/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="source/css/bootstrap-theme.min.css" rel="stylesheet" />
 	<link href="source/css/font-awesome.min.css" rel="stylesheet" />
 	<link href="source/css/vis.min.css" rel="stylesheet" />
+	<link href="source/css/jquery.scrollbar.css" rel="stylesheet" />
 	<link href="source/css/main.css" rel="stylesheet" />
 
 </head>
@@ -28,101 +29,45 @@
 
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav">
-			<form class="navbar-form navbar-left" style="display:none">
+			<form id="bookNodeAddNavForm" class="navbar-form navbar-left" style="display:none">
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="Номер параграфа" autocomplete="off">
 				</div>
-				<button type="submit" class="btn btn-default">Создать <i class="fa fa-paragraph"></i></button>
+				<button type="submit" class="btn btn-default"><i class="fa fa-paragraph">&nbsp;</i>Создать</button>
 			</form>
-			
-			
-			
-			<!-- new node link -->
-			<li class="zbeIniShow" style="display:none">
-				<a href="#" id="zbeNodeAddLink">
-					<i class="fa fa-plus"></i>&nbsp;
-					Новый Параграф
-				</a>
-			</li>
-			
-			<!--node dropdown-->
-			<li id="zbeNodeDropdown" class="dropdown" style="display:none">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-					<i class="fa fa-paragraph"></i>&nbsp;
-					<span id="zbeNodeDropdownName"></span>&nbsp;
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="#" data-toggle="modal" data-target="#zbeModalNodeEdit">
-							<i class="fa fa-pencil"></i>&nbsp;
-							Редактировать
-						</a>
-					</li>
-					<li><a href="#" class="zbeNodeDataNumber" id="zbeNodeAddChildrenLink">
-							<i class="fa fa-plus"></i>&nbsp;
-							Создать потомка
-						</a>
-					</li>
-					<li>
-						<a href="#" class="zbeNodeDataNumber" id="zbeNodeAddParentLink">
-							<i class="fa fa-plus"></i>&nbsp;
-							Создать предка
-						</a>
-					</li>
-					<li>
-						<a href="#" id="zbeNodePhysicsLink" class="zbeNodeDataNumber" data-str-on="<i class='fa fa-globe'></i>&nbsp;&nbsp;Включить физику" data-str-off="<i class='fa fa-globe'></i>&nbsp;&nbsp;Выключить физику"></a>
-					</li>
-					<li id="zbeNodeDropdownDeleteLink">
-						<a href="#" data-toggle="modal" data-target="#zbeModalNodeRemove">
-							<i class="fa fa-trash-o"></i>&nbsp;
-							Удалить
-						</a>
-					</li>
-				</ul>
-			</li>
-			
-			<!--edge link-->
-			<li id="zbeEdgeLink" style="display:none">
-				<a href="#" data-toggle="modal" data-target="#zbeModalEdgesLabel">
-					<i class="fa fa-pencil"></i>&nbsp;
-					<span id="zbeEdgeLinkTitle"></span> 
-					<span class="zbeEdgeNumber"></span> 
-				</a>
-			</li>
 		</ul>
 
 		<!-- right -->		
 		<ul class="nav navbar-nav navbar-right">
 			<li class="dropdown" style="display:none">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-					Действия&nbsp;
+					Книга-игра&nbsp;
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
 					<li>
 						<a data-toggle="modal" data-target="#zbeModalBookPlay" href="#">
-							<i class="fa fa-play-circle-o"></i>&nbsp;
+							<i class="fa fa-play-circle-o">&nbsp;</i>
 							Играть КНИ
 						</a>
 					</li>
-					<li><a id="zbeSetBtn1" href="#" style="display:none">Экспорт КНИ</a></li>
-					<li role="separator" class="divider"></li>
+					<li><a href="#" style="display:none">Экспорт КНИ</a></li>
+					<li role="separator" class="divider">&nbsp;</li>
 					<li>
 						<a data-toggle="modal" data-target="#zbeModalBookSetting" href="#">
-							<i class="fa fa-cog"></i>&nbsp;
+							<i class="fa fa-cog">&nbsp;</i>
 							Настройки КНИ
 						</a>
 					</li>
 					<li>
 						<a id="zbeSaveBtn" class="zbeIniShow" href="#">
-							<i class="fa fa-download"></i>&nbsp;
+							<i class="fa fa-download">&nbsp;</i>
 							Сохранить КНИ
 						</a>
 					</li>
 					<li>
 						<a id="zbeBookNewLink" class="zbeIniShow" href="#">
-							<i class="fa fa-book"></i>&nbsp;
+							<i class="fa fa-book">&nbsp;</i>
 							Новая КНИ
 						</a>
 					</li>
@@ -132,7 +77,7 @@
 			<!-- git link -->
 			<li>
 				<a href="https://github.com/nazarpunk/zarbook" target="_blank">
-					<i class="fa fa-github"></i> <span class="visible-xs-inline">Github</span>
+					<i class="fa fa-github">&nbsp;</i><span class="visible-xs-inline">Github</span>
 				</a>
 			</li>
 		</ul>
@@ -143,14 +88,14 @@
 </nav>
 
 <!-- CANVAS -->
-<div id="canvas"  style="display:none"></div>
+<div id="canvas"  style="display:none">&nbsp;</div>
 
 <!-- SIDEBAR -->
 <div id="sidebar" style="display:none">
-	<div class="scrollbar scrollbar-inner">
+	<div class="scrollbar scrollbar-dynamic">
 		<div class="navbar navbar-inverse navbar-fixed-left">	
 			<ul class="nav navbar-nav">
-				<li><a href="#"><i class="fa fa-paragraph"></i> 2</a></li>
+				<li><a href="#"><i class="fa fa-paragraph">&nbsp;</i>2</a></li>
 				<li class="active"><a href="#">Link3</a></li>
 				
 			</ul>
@@ -164,14 +109,16 @@
 			<div class="col-sm-12">
 				<h1>zarbook <small>очередной редактор книг-игр</small></h1>
 					<p>Книга-игра (англ. gamebook) — литературное произведение, которое позволяет читателю участвовать в формировании сюжета. Чаще всего читателю предлагается стать главным героем книги и, в зависимости от принимаемых решений, он перемещается между страницами или главами. Таким образом, книга-игра читается не последовательно, а в той очерёдности, в которой читатель проходит страницы или главы.</p>
-				<h2>Новая книга-игра</h2>
-				
+				<h2>Ваши книги-игры</h2>
 				<p>Книги-игры хранятся в localstorage браузера</p>
+				<p>Вы ещё не создали книг-игр</p>
+				
+				<h2>Новая книга-игра</h2>
 								
 				<p>Для создания книги-игры просто введите название и нажмите "<i>Создать</i>"</p>
-				<form class="form-inline">
+				<form id="bookNewForm" class="form-inline">
 					<div class="form-group">
-						<input type="text" class="form-control" id="bookNewInput" placeholder="Моя книга-игра">
+						<input id="bookNewFormInput" type="text" class="form-control" autocomplete="off" placeholder="Моя книга-игра">
 					</div>
 					<button type="submit" class="btn btn-default"><i class="fa fa-book">&nbsp;</i>Создать</button>
 				</form>
